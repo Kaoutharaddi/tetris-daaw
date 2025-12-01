@@ -1,0 +1,391 @@
+:root {
+    color-scheme: dark;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0b1220;
+    color: #fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ==================== LOGIN ==================== */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #111827;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #1f2937;
+    min-width: 300px;
+}
+
+.login-form label {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.login-form input {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background: #1f2937;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.login-form input:focus {
+    border-color: #3b82f6;
+}
+
+/* ==================== GAME CONTAINER ==================== */
+
+.game-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: auto 220px;
+    gap: 24px;
+    align-items: start;
+}
+
+.board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 0 0 12px;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* ==================== PANEL ==================== */
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stat {
+    font-size: 14px;
+    opacity: 0.95;
+    padding: 4px 0;
+}
+
+.help {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #1f2937;
+}
+
+.help p {
+    margin: 4px 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* ==================== TABLERO ==================== */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 24px);
+    grid-template-rows: repeat(20, 24px);
+    background: #111827;
+    padding: 6px;
+    border-radius: 12px;
+    gap: 2px;
+    border: 1px solid #1f2937;
+    justify-content: center;
+}
+
+.cell {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== NEXT PIECE ==================== */
+
+.next {
+    margin-top: 8px;
+    padding: 12px;
+    background: #111827;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+}
+
+.next h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.next-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 18px);
+    grid-template-rows: repeat(4, 18px);
+    gap: 2px;
+    background: #0f1628;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #0f172a;
+}
+
+.next-cell {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ==================== BANNERS ==================== */
+
+.banner {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    width: max-content;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.banner.pause {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.banner.over {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ==================== BUTTONS ==================== */
+
+.btn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background: #1f2937;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+    background: #374151;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.logout-btn {
+    margin-top: 24px;
+    background: transparent;
+    border-color: #4b5563;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+/* ==================== LOBBY ==================== */
+
+.lobby {
+    background: #111827;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #1f2937;
+    min-width: 400px;
+    max-width: 600px;
+}
+
+.lobby h2 {
+    margin: 0 0 24px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.lobby-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #1f2937;
+}
+
+.lobby-section:last-of-type {
+    border-bottom: none;
+}
+
+.lobby-section h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    color: #9ca3af;
+}
+
+.player-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.player-list li {
+    padding: 8px 12px;
+    background: #1f2937;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.player-list li.current-player {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.results-table th,
+.results-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #1f2937;
+}
+
+.results-table th {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.results-table tr:last-child td {
+    border-bottom: none;
+}
+
+.no-data {
+    color: #6b7280;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.lobby-instructions {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.start-instruction {
+    font-size: 18px;
+    color: #22c55e;
+    font-weight: 600;
+    margin-bottom: 16px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ==================== PLAYERS PANEL (IN GAME) ==================== */
+
+.players-panel {
+    margin-top: 12px;
+    padding: 12px;
+    background: #111827;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+}
+
+.players-panel h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.player-list-small {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.player-list-small li {
+    padding: 4px 0;
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.player-list-small li.current {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.player-list-small li.eliminated {
+    color: #ef4444;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* ==================== POSTGAME ==================== */
+
+.postgame-instructions {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.postgame-instructions p {
+    font-size: 16px;
+    color: #22c55e;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 600px) {
+    .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .panel {
+        order: -1;
+    }
+    
+    .lobby {
+        min-width: auto;
+        width: 100%;
+    }
+}
