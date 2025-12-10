@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { checkPlayerNameExists } from "../persistence/gameRepository"; 
 
 const Login = ({ onLogin }) => {
     const [playerName, setPlayerName] = useState("");
-    
+    const [error, setError] = useState(""); // Estado para el mensaje de error
+    const [isChecking, setIsChecking] = useState(false); // Estado de carga
+
     // Cargar nombre guardado del localStorage
     useEffect(() => {
         const savedName = localStorage.getItem("tetrisPlayerName");
@@ -10,13 +13,35 @@ const Login = ({ onLogin }) => {
             setPlayerName(savedName);
         }
     }, []);
-    
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => { // Ahora es async
         e.preventDefault();
-        if (playerName.trim()) {
-            // Guardar nombre en localStorage
-            localStorage.setItem("tetrisPlayerName", playerName.trim());
-            onLogin(playerName.trim());
+        setError(""); // Limpiar errores previos
+        
+        const nameToUse = playerName.trim();
+
+        if (nameToUse) {
+            setIsChecking(true); // Activar spinner/bloqueo
+            
+            try {
+                // 1. Verificar si existe en Firebase
+                const exists = await checkPlayerNameExists(nameToUse);
+                
+                if (exists) {
+                    setError("⚠️ Este nombre ya está en uso. Elige otro.");
+                    setIsChecking(false);
+                    return; // Detener el proceso
+                }
+
+                // 2. Si no existe, proceder con el login normal
+                localStorage.setItem("tetrisPlayerName", nameToUse);
+                onLogin(nameToUse);
+                
+            } catch (err) {
+                console.error(err);
+                setError("Error de conexión. Inténtalo de nuevo.");
+                setIsChecking(false);
+            }
         }
     };
     
@@ -29,13 +54,25 @@ const Login = ({ onLogin }) => {
                     type="text"
                     id="playerName"
                     value={playerName}
-                    onChange={(e) => setPlayerName(e.target.value)}
+                    onChange={(e) => {
+                        setPlayerName(e.target.value);
+                        setError(""); // Limpiar error al escribir
+                    }}
                     placeholder="Your name..."
                     maxLength={20}
                     autoFocus
+                    disabled={isChecking} // Deshabilitar mientras comprueba
                 />
-                <button type="submit" className="btn" disabled={!playerName.trim()}>
-                    Join Game
+                
+                {/* Mostrar mensaje de error si existe */}
+                {error && <p style={{ color: "#ef4444", fontSize: "14px", margin: 0 }}>{error}</p>}
+
+                <button 
+                    type="submit" 
+                    className="btn" 
+                    disabled={!playerName.trim() || isChecking}
+                >
+                    {isChecking ? "Checking..." : "Join Game"}
                 </button>
             </form>
         </div>

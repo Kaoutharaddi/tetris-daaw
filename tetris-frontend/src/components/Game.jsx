@@ -57,11 +57,19 @@ const Game = ({ playerName, onLogout }) => {
     // Escuchar lista de jugadores
     useEffect(() => {
         const detach = attachPlayersListener(
-            (data) => setPlayers(data),
+            (data) => {
+                setPlayers(data);
+                // Si soy el único jugador conectado, aseguro que el juego esté en modo Lobby (started: false)
+                // Esto limpia estados "sucios" de pruebas anteriores en Firebase.
+                if (data && Object.keys(data).length === 1 && data[playerName]) {
+                    setGameState({ started: false, paused: false, gameOver: false })
+                        .catch(err => console.error("Error resetting game state:", err));
+                }
+            },
             (err) => console.error("Players listener error:", err)
         );
         return () => detach();
-    }, []);
+    }, [playerName]);
     
     // Escuchar estado global del juego
     useEffect(() => {

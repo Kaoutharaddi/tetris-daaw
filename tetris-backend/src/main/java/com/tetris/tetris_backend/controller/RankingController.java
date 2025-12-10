@@ -2,6 +2,8 @@ package com.tetris.tetris_backend.controller;
 
 import com.tetris.tetris_backend.model.Score;
 import com.tetris.tetris_backend.service.ScoreService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,6 @@ import java.util.List;
  *  - POST /ranking
  *  - GET  /ranking
  */
-@CrossOrigin(origins = "http://localhost:5173") // permite que el frontend de Vite llame a esta API
 @RestController
 @RequestMapping("/ranking")
 public class RankingController {
@@ -28,8 +29,9 @@ public class RankingController {
      * Recibe JSON con nombre, nivel y líneas y lo guarda en BD.
      */
     @PostMapping
-    public Score addScore(@RequestBody Score score) {
-        return scoreService.saveScore(score);
+    public ResponseEntity<Score> addScore(@RequestBody Score score) {
+        Score savedScore = scoreService.saveScore(score);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedScore);
     }
 
     /**
@@ -37,7 +39,8 @@ public class RankingController {
      * Devuelve el top 10 de puntuaciones.
      */
     @GetMapping
-    public List<Score> getRanking() {
-        return scoreService.getTopRanking();
+    public ResponseEntity<List<Score>> getRanking() {
+        List<Score> ranking = scoreService.getTopRanking();
+        return ResponseEntity.ok(ranking);
     }
 }

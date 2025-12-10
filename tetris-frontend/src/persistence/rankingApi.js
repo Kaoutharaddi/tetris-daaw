@@ -1,6 +1,6 @@
 // URL base del servidor Spring Boot
 // Cambiar según el entorno de despliegue
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
 /**
  * Obtiene el ranking histórico de puntuaciones
@@ -30,9 +30,9 @@ export async function postScore(playerName, level, lines) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                playerName: playerName,
-                level: level,
-                lines: lines
+                nombre: playerName,
+                nivel: level,
+                lineas: lines
             }),
         });
         

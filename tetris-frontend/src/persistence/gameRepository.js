@@ -4,6 +4,14 @@ import { ref, set, onValue, off, remove, onDisconnect, get, push } from "firebas
 // ==================== GESTIÓN DE JUGADORES ====================
 
 /**
+ * Verifica si un nombre de usuario ya está en uso
+ */
+export async function checkPlayerNameExists(playerName) {
+    const playerRef = ref(db, `players/${playerName}`);
+    const snapshot = await get(playerRef);
+    return snapshot.exists();
+}
+/**
  * Registra un jugador en el lobby
  */
 export async function registerPlayer(playerName) {
