@@ -8,16 +8,6 @@ function App() {
     const [playerName, setPlayerName] = useState(null);
     const navigate = useNavigate(); // <--- Hook para navegar
 
-    // // Recuperar sesión si recarga la página (opcional, pero recomendado)
-    // useEffect(() => {
-    //     const saved = localStorage.getItem("tetrisPlayerName");
-    //     if (saved) {
-    //         setPlayerName(saved);
-    //         // Si ya tiene nombre, que vaya al juego directo
-    //         navigate("/game"); 
-    //     }
-    // }, []); // Se ejecuta solo al montar
-
     const handleLogin = (name) => {
         setPlayerName(name);
         navigate("/game"); // <--- Navegar explícitamente al juego
