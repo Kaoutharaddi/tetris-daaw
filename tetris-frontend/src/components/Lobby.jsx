@@ -76,9 +76,9 @@ const Lobby = ({ players, lastGameResults, playerName }) => {
                             {ranking.slice(0, 10).map((entry, index) => (
                                 <tr key={entry.id || index}>
                                     <td>{index + 1}</td>
-                                    <td>{entry.playerName}</td>
-                                    <td>{entry.level}</td>
-                                    <td>{entry.lines}</td>
+                                    <td>{entry.nombre}</td>
+                                    <td>{entry.nivel}</td>
+                                    <td>{entry.lineas}</td>
                                 </tr>
                             ))}
                         </tbody>
