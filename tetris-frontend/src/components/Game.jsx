@@ -162,7 +162,7 @@ const Game = ({ playerName, onLogout }) => {
     
     // Callback cuando el jugador pierde
     const handleGameOver = useCallback(async (finalLines, finalLevel) => {
-        // Marcar jugador como gameOver
+        // Marcar jugador como gameOver en Firebase
         await updatePlayerState(playerName, {
             gameOver: true,
             lines: finalLines,
@@ -172,22 +172,36 @@ const Game = ({ playerName, onLogout }) => {
         // Guardar puntuación en el ranking
         await postScore(playerName, finalLevel, finalLines);
         
-        // Verificar si todos los jugadores han perdido
-        // o si solo queda uno (en caso de más de 1 jugador)
+        // Verificar si se debe terminar la partida globalmente
         setTimeout(async () => {
             const currentPlayers = Object.values(players);
-            const playersAlive = currentPlayers.filter((p) => !p.gameOver);
             
-            if (playersAlive.length === 0 || 
-                (currentPlayers.length > 1 && playersAlive.length <= 1)) {
+            // Filtramos los jugadores vivos excluyendo al actual (playerName)
+            // porque acabamos de perder ahora mismo y el estado 'players' 
+            // podría no haberse actualizado todavía con nuestra muerte.
+            const othersAlive = currentPlayers.filter(
+                (p) => p.name !== playerName && !p.gameOver
+            );
+            
+            // Fin de juego si:
+            // 1. Soy el único jugador (othersAlive es 0)
+            // 2. O solo queda 1 superviviente en multiplayer (ya ganó)
+            if (othersAlive.length === 0 || 
+               (currentPlayers.length > 1 && othersAlive.length <= 1)) {
+                
                 // Fin de la partida
                 await setGameState({ started: false, paused: false, gameOver: true });
                 
-                // Guardar resultados de la partida
+                // Guardar resultados
                 const results = currentPlayers
-                    .map((p) => ({ name: p.name, lines: p.lines || 0, level: p.level || 1 }))
+                    .map((p) => ({ 
+                        name: p.name, 
+                        // Aseguramos leer los datos más recientes o los locales si soy yo
+                        lines: p.name === playerName ? finalLines : (p.lines || 0), 
+                        level: p.name === playerName ? finalLevel : (p.level || 1) 
+                    }))
                     .sort((a, b) => b.lines - a.lines);
-                
+                    
                 await saveLastGameResults(results);
             }
         }, 500);
